@@ -1,6 +1,4 @@
-import mongoose from 'mongoose'
-//Imports the mongoose library, which is used to define schemas and models for MongoDB.
-
+const mongoose = require('mongoose')
 const { Schema, model } = mongoose
 // Destructures Schema and model from mongoose to make the syntax cleaner.
 // Schema: Used to define the structure of a document in MongoDB.
@@ -42,5 +40,4 @@ const profileSchema = new Schema({
 }, { timestamps: true })
 
 // Export the Profile model
-const Profile = model('Profile', profileSchema);
-export default Profile
+module.exports = model('Profile', profileSchema)
