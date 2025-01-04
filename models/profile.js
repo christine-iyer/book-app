@@ -15,6 +15,7 @@ const commentSchema = new Schema({
 // profileSchema defines the structure and validation rules for Profile documents in MongoDB.
 const profileSchema = new Schema({
     date: { type: Date, default: Date.now }, //Represents the date when the profile is created.
+    email: { type: String, required: true }, // Represents the user email 
     DOB: { type: String, required: true }, // Represents the user's date of birth.
     username: { type: String, required: true, unique: true, index: true }, //Represents the user's username.
     name: {
@@ -23,7 +24,7 @@ const profileSchema = new Schema({
     }, //Represents the user's full name, stored as a nested object
     favGenre: { type: String, default: 'Unknown' },  // Represents the user's favorite genre (e.g., "fiction").
     location: { type: String, default: 'Not Specified' }, // Represents the user's location.
-    photo: { type: String, required: true }, //Represents the URL or path to the user's profile picture.
+    photo: { type: String }, //Represents the URL or path to the user's profile picture.
     userReviews: [
         {
             body: { type: String, required: true }, // The main text of the review
