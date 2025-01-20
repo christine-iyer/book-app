@@ -1,14 +1,16 @@
 const { Schema, model } = require('mongoose')
 
 const reviewSchema = new Schema({
-     reviewId: {type: String}, 
-     review: {type: String}, 
-     comment: {type: String},
-     category: {type: String, required: true},
-     like: {type: Number}, 
-     rating: {type: Number}, 
-     username: {type: Schema.ObjectId, ref: "User"}
-}, 
+     title: {type: Schema.ObjectId, ref: "Book"},
+     text: {type: String, required: true},
+     genre: {type: String, required: true},
+     rating: {type: Number, required: true}, 
+     username: {type: Schema.ObjectId, ref: "User"},
+     comment: {type: String, required: false},
+     like: {type: Number, required: false}, 
+     
+     
+},
 {timestamps:true})
 
 const Review = model('Review', reviewSchema)
