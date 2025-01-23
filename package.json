@@ -10,6 +10,8 @@
   "license": "ISC",
   "description": "[Lucid Chart](https://lucid.app/lucidchart/ab790270-d8a7-4bf7-a34e-07e9d6a66593/edit?invitationId=inv_e63efd0e-b540-46ff-96b5-b46acdf3718e&page=0_0#)",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mongodb": "^6.12.0",
