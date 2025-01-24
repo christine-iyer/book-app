@@ -1,12 +1,12 @@
 require('dotenv').config()
 
 const { get } = require('mongoose')
-const Review = require('../../models/Review')
+const Review = require('../../models/review')
 
 const writeReview = async (req, res, next) => {
      try {
-          const {title,text, genre, comment,like, rating, username} = req.body
-          const bookReview = new Review({title,text, comment, genre, like, rating, username})     
+          const {title,author,text, genre,  rating} = req.body
+          const bookReview = new Review({title,author,text, genre,  rating})     
           await bookReview.save()
           res.status(201).json({message: "Review created"})
           }
@@ -16,11 +16,11 @@ const writeReview = async (req, res, next) => {
 }
 const editReview = async (req, res, next) => {
      const { id } = req.params
-     const { text, comment, genre, like, rating } = req.body   
+     const { text, author, genre, title, rating } = req.body   
      try {
           const updatedReview = await Review.findByIdAndUpdate(
                id,
-               { title, text, genre,  rating, comment, like },   
+               { title,author,text, genre,  rating },   
                { new: true, runValidators: true }             
           )
           

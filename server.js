@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3001
 connectdb()
      .then(() => {
           app.listen(PORT, () => {
-               console.log(`Here I am on ${PORT}.`)
+               console.log(`Here I sit on the number ${PORT} hydrant`)
           })
 
      })
