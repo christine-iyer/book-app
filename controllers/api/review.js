@@ -39,10 +39,28 @@ const deleteReview = async (req, res, next) => {
           res.status(400).json({message: error.message})
      }
 }
-const listReviews = (req, res) => {
-     res.json(res.locals.data.reviews)
+const listReviews = async (req, res, next) => {
+     try {const reviews = await Review.find()
+          res.locals.data.reviews = reviews
+          
+     } catch (error) {
+          res.status(400).json({message: error.message})
+          
+     }
+   
  }
-const getReview = (req, res) => {
+const getReview = async(req, res) => {
+     const { id } = req.params
+     try {
+          const review = await Review.findById(id)
+          if (!review) {
+               return res.status(404).json({ message: "Review not found" })
+          }
+          
+     } catch (error) {
+          res.status(400).json({message: error.message})
+          
+     }
      res.json(res.locals.data.review)
  }
 
