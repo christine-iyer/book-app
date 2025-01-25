@@ -6,7 +6,6 @@ const reviewSchema = new Schema({
      text: {type: String},
      genre: {type: String},
      rating: {type: Number}, 
-     username: {type: Schema.ObjectId, ref: "User"},
      comment: {type: String, required: false},
      like: {type: Number, required: false}, 
      
