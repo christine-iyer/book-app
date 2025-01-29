@@ -1,14 +1,16 @@
 require("dotenv").config();
 const { get } = require('mongoose')
 const Review = require("../../models/review");
+const User = require("../../models/user")
 
 const writeReview = async (req, res) => {
   try {
-    const { title, author, text, genre, rating } = req.body;
-    if (!title || !author || !text || !genre || rating === undefined) {
-      return res.status(400).json({ message: "All fields are required" });
+    const { userId,title, author, text, genre, rating } = req.body;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ message: "User does not exist" });
     }
-    const bookReview = new Review({ title, author, text, genre, rating });
+    const bookReview = new Review({ userId, title, author, text, genre, rating });
     await bookReview.save();
     res.status(201).json({ message: "Review created", data: bookReview });
   } catch (err) {
@@ -48,7 +50,7 @@ const deleteReview = async (req, res) => {
 
 const listReviews = async (req, res) => {
   try {
-    const reviews = await Review.find();
+    const reviews = await Review.find().populate('userId', 'username');
     res.status(200).json({ data: reviews });
   } catch (error) {
     res.status(400).json({ message: error.message });

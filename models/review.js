@@ -1,7 +1,8 @@
 const { Schema, model } = require('mongoose')
 
 const reviewSchema = new Schema({
-     title: {type: String},
+     userId: {type: Mongoose.Schema.Types.ObjectId, ref: "User", requires: true },
+     title: {type: String, required: true},
      author: {type: String},
      text: {type: String},
      genre: {type: String},
