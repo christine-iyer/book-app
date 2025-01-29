@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const { get } = require('mongoose')
-const User = require('../../models/User')
+const User = require('../../models/user')
 
 const signUp = async (req, res, next) => {
      try {
