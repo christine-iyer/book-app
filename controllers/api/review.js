@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { get } = require('mongoose')
 const Review = require("../../models/review");
-const User = require("../../models/User")
+const User = require("../../models/user")
 
 const writeReview = async (req, res) => {
   try {
@@ -51,7 +51,7 @@ const deleteReview = async (req, res) => {
 const listReviews = async (req, res) => {
   try {
     const reviews = await Review.find().populate('userId', 'username');
-    res.status(200).json({ data: reviews });
+    res.status(200).json({ reviews });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
