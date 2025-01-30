@@ -48,9 +48,11 @@ const deleteUser = async (req, res, next) => {
      }
 }
 
-const listUsers = async (req, res, next) => {
+const listUsers = async (req, res) => {
      try {
-          const users = await User.find()
+          const users = await User.find({}, "_id username" 
+
+          )
           res.status(200).json(users)
      }
      catch(err){
