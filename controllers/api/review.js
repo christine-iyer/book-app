@@ -5,12 +5,12 @@ const User = require("../../models/user")
 
 const writeReview = async (req, res) => {
   try {
-    const { userId,title, author, text, genre, rating } = req.body;
+    const { userId,title, author, text, genre, rating, images } = req.body;
     const user = await User.findById(userId);
     if (!user) {
       return res.status(400).json({ message: "User does not exist" });
     }
-    const bookReview = new Review({ userId, title, author, text, genre, rating });
+    const bookReview = new Review({ userId, title, author, text, genre, rating, images });
     await bookReview.save();
     res.status(201).json({ message: "Review created", data: bookReview });
   } catch (err) {
@@ -20,11 +20,11 @@ const writeReview = async (req, res) => {
 
 const editReview = async (req, res) => {
   const { id } = req.params;
-  const { text, author, genre, title, rating } = req.body;
+  const { text, author, genre, title, rating, images } = req.body;
   try {
     const updatedReview = await Review.findByIdAndUpdate(
       id,
-      { title, author, text, genre, rating },
+      { title, author, text, genre, rating, images },
       { new: true, runValidators: true }
     );
     if (!updatedReview) {
@@ -51,6 +51,7 @@ const deleteReview = async (req, res) => {
 const listReviews = async (req, res) => {
   try {
     const reviews = await Review.find().populate('userId', 'username');
+    reviews.reverse()
     res.status(200).json({ data: reviews });
   } catch (error) {
     res.status(400).json({ message: error.message });

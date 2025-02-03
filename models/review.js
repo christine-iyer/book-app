@@ -8,8 +8,8 @@ const reviewSchema = new Schema({
     text: { type: String },
     genre: { type: String },
     rating: { type: Number },
-    comment: { type: String, required: false },
-    like: { type: Number, required: false },
+    images: { type: [String], required: false, default:[] },
+    like: { type: Number},
 }, { timestamps: true });
 
 const Review = model('Review', reviewSchema);
