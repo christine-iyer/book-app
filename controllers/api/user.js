@@ -16,24 +16,33 @@ const signUp = async (req, res, next) => {
      }
 }
 const updateUser = async (req, res, next) => {
-     const { id } = req.params
-     const { username, email, password } = req.body
+     const { id } = req.params;
+     const { username, email, password } = req.body;
+ 
      try {
-          const updatedUser = await User.findByIdAndUpdate(
-               id,
-               { username, email, password },
-               { new: true, runValidators: true }             
-          )
-
-          if (!updatedUser) {
-               return res.status(404).json({ message: "User not found" })
-          }
-          res.status(200).json(updatedUser)  
+         // Build the update object dynamically to only include fields that are provided
+         const updateData = {};
+         if (username) updateData.username = username;
+         if (email) updateData.email = email;
+         if (password) updateData.password = password;
+ 
+         // Update the user
+         const updatedUser = await User.findByIdAndUpdate(
+             id,
+             updateData,
+             { new: true, runValidators: true } // `new: true` returns the updated document
+         );
+ 
+         if (!updatedUser) {
+             return res.status(404).json({ message: "User not found" });
+         }
+ 
+         res.status(200).json(updatedUser);
+     } catch (err) {
+         res.status(400).json({ message: err.message });
      }
-     catch(err){
-          res.status(400).json({message: err.message})
-     }         
-}
+ };
+ 
 const deleteUser = async (req, res, next) => {
      const { id } = req.params
      try {
