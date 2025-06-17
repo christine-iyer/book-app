@@ -10,6 +10,7 @@ const reviewSchema = new Schema({
     rating: { type: Number },
     images: { type: [String], required: false, default:[] },
     like: { type: Number},
+    comments: [commentSchema],
 }, { timestamps: true });
 
 const Review = model('Review', reviewSchema);

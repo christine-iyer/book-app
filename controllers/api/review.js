@@ -2,6 +2,7 @@ require("dotenv").config();
 const { get } = require('mongoose')
 const Review = require("../../models/review");
 const User = require("../../models/user")
+const Comment = require("../../models/comment");
 
 const writeReview = async (req, res) => {
   try {
@@ -73,11 +74,10 @@ const getReview = async (req, res) => {
 
 const likeReview = async (req, res) => {
   const { id } = req.params;
-  const { like } = req.body;
   try {
     const likedReview = await Review.findByIdAndUpdate(
       id,
-      { like },
+      {$inc:{like:1} },
       { new: true, runValidators: true }
     );
     if (!likedReview) {
@@ -87,8 +87,37 @@ const likeReview = async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-};
+  };
+  // Add a comment to a review
+async function addComment(reviewId, userId, commentText) {
+  const review = await Review.findById(reviewId);
+  if (!review) throw new Error('Review not found');
 
+  review.comments.push({ userId, text: commentText });
+  await review.save();
+  return review;
+}
+// Add a reply to a comment
+async function addReply(reviewId, commentId, userId, replyText) {
+  const review = await Review.findById(reviewId);
+  if (!review) throw new Error('Review not found');
+
+  const comment = review.comments.id(commentId);
+  if (!comment) throw new Error('Comment not found');
+
+  comment.replies.push({ userId, text: replyText });
+  await review.save();
+  return review;
+}
+// Get a review with populated comments
+async function getReviewWithComments(reviewId) {
+  const review = await Review.findById(reviewId)
+      .populate('userId', 'name') // Populate review creator
+      .populate('comments.userId', 'name'); // Populate comment creators
+
+  if (!review) throw new Error('Review not found');
+  return review;
+}
 module.exports = {
   writeReview,
   editReview,
@@ -96,4 +125,7 @@ module.exports = {
   listReviews,
   getReview,
   likeReview,
+  addComment, 
+  addReply, 
+  getReviewWithComments
 };
