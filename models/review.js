@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'); // Import Mongoose
 const { Schema, model } = mongoose; // Destructure Schema and model from mongoose
+const { schema: commentSchema } = require('./comment'); // Import commentSchema
 
 const reviewSchema = new Schema({
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true }, // Fix "requires" typo
